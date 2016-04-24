@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePublicacao extends Migration
+class Comentarios extends Migration
 {
     /**
      * Run the migrations.
@@ -12,18 +12,17 @@ class CreatePublicacao extends Migration
      */
     public function up()
     {
-        Schema::create('publicacao', function (Blueprint $table) {
-            $table->increments('idPublicacao');
-            $table->string('local');
-            $table->string('foto');
-            $table->string('mensagem');
+        Schema::create('comentarios', function (Blueprint $table) {
+            $table->increments('idComentario');
+            $table->string('comentario');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('categoria_id')->unsigned();
-            $table->foreign('categoria_id')->references('idCategoria')->on('categorias');
+            $table->integer('publicacao_id')->unsigned();
+            $table->foreign('publicacao_id')->references('idPublicacao')->on('publicacao');
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.

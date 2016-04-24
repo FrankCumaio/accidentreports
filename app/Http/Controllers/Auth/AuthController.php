@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use Input;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -61,12 +61,28 @@ class AuthController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
+    protected function create()
     {
+         $data = array(
+            'name'     => Input::get('name'),
+        'email'     => Input::get('email'),
+        'password'  => Input::get('password')
+    );
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+     public function authenticate()
+    {
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            // Authentication passed...
+            return redirect()->intended('dashboard');
+        }
+    }
+
+    public function getLogin(){
+        return view ('login');
     }
 }
